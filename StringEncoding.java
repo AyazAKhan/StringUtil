@@ -8,9 +8,8 @@
 public class StringEncoding {
 
 	/**
-	 * The method will return the offset value for string literals with characters a-z.
-	 * Any character other than a-z will not be changed.
-	 * 
+	 * The method will return the string with provided offset value for characters.
+	 *  
 	 * @param 	offset		value to determine the action of function
 	 * @param 	original	the original string value
 	 * @return	string value after the changes done
@@ -27,34 +26,28 @@ public class StringEncoding {
 		/** charArr Character array of the original string */
 		char[] charArr = original.toCharArray();
 		
-		if (offset == 1) {
-			for (char ch: charArr) {
-				int chVal = (int)ch;
-				if (chVal > 96 && chVal < 122) {
-					offsetValue.append((char) ++chVal);
-					
-				} else if (chVal == 122) {
-					offsetValue.append('a');
+		for (char ch: charArr) {
+			int chVal = (int)ch;
+			if (chVal > 96 && chVal < 123) {
+				if ((chVal + offset) < 97) {
+					offsetValue.append((char)(chVal + offset + 26));
+				} else if ((chVal + offset) > 122) {
+					offsetValue.append((char)(chVal + offset - 26));
 				} else {
-					offsetValue.append((char) chVal);
+					offsetValue.append((char)(chVal + offset));
 				}
-			}
-		} else if (offset == -1) {
-			for (char ch: charArr) {
-				int chVal = (int)ch;
-				if (chVal > 97 && chVal < 123) {
-					offsetValue.append((char) --chVal);
-					
-				} else if (chVal == 97) {
-					offsetValue.append('z');
+			} else if (chVal > 64 && chVal < 91) {
+				if ((chVal + offset) < 65) {
+					offsetValue.append((char)(chVal + offset + 26));
+				} else if ((chVal + offset) > 90) {
+					offsetValue.append((char)(chVal + offset - 26));
 				} else {
-					offsetValue.append((char) chVal);
+					offsetValue.append((char)(chVal + offset));
 				}
+				
+			} else {
+				offsetValue.append((char) chVal);
 			}
-		} else {
-			
-			// for any other offset value, no action performed.
-			return original;
 		}
 		
 		return offsetValue.toString();
